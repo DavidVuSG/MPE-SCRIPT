@@ -311,3 +311,42 @@ return
 
 
 ; -----------------------------------------end export files
+
+
+
+
+; --------------------------------------- Copy and Replace b36.xls
+
+; Copy selected file in Explorer, rename to b36.xls, and overwrite destination
+; Hotkey: win+shift+f
+
+#+f::
+    selectedFile := Explorer_GetSelection()
+    if (selectedFile = "")
+    {
+        MsgBox, 48, Error, No file selected!
+        return
+    }
+
+    destFile := "C:\Users\nhan\Documents\Python Notebook\ProjectSQLPython\b36.xls"
+
+    FileCopy, %selectedFile%, %destFile%, 1  ; 1 = overwrite
+    MsgBox, 64, Done, Copied and replaced as b36.xls in ProjectSQLPython folder!
+return
+
+; Function to get selected file from Explorer
+Explorer_GetSelection() {
+    for window in ComObjCreate("Shell.Application").Windows
+    {
+        if (window.hwnd = WinActive("A"))
+        {
+            sel := window.document.SelectedItems
+            if (sel.Count = 0)
+                return ""
+            return sel.Item(0).Path
+        }
+    }
+    return ""
+}
+
+; -------------------------------------------- end copy and replace b36.xls
